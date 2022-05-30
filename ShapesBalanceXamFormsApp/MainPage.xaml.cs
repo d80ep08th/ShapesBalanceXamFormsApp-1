@@ -30,10 +30,10 @@ namespace ShapesBalanceXamFormsApp
         {
 
 
-            yield return new Wallet(50, Brush.Blue);
-            yield return new Wallet(5, Brush.Gray);
+            //yield return new Wallet(50, Brush.Blue);
+            //yield return new Wallet(5, Brush.Gray);
             yield return new Wallet(5, Brush.Brown);
-            
+
         }
 
         public MainPage()
@@ -112,43 +112,29 @@ namespace ShapesBalanceXamFormsApp
             //manipulate the gap between the arcs
             double gap;
 
-            
-            
-            
+
+
+
             foreach (Wallet p in amounts)
                 total += p.CryptoValue;
 
-            for (int i = 0; i < n; i++)
+            if (n == 1 )
             {
 
-                
-                change = (amounts.ElementAt(i).CryptoValue * 360) / total;
-                
 
-                Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
+                change = 360;
+                gap = 0;
+
+                Path path = new Path { Stroke = amounts.ElementAt(0).Stroke };
                 PathGeometry geometry = new PathGeometry();
                 PathFigureCollection pathFigures = new PathFigureCollection();
                 PathFigure pathFigure = new PathFigure();
                 PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
                 ArcSegment arcSegment = new ArcSegment();
 
-
-                gap = 5;
-
-                if (change > 10)
-                {
-                    arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
-                    arcAngle = arcAngle + change;
-
-                }
-                else
-                {
-                    arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, change + gap*2);
-                    arcAngle = arcAngle + change;
-
-                }
-
-
+                arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
+                
+                
                 path.Data = geometry;
                 geometry.Figures = pathFigures;
                 pathFigures.Add(pathFigure);
@@ -156,13 +142,56 @@ namespace ShapesBalanceXamFormsApp
 
                 grid.Children.Add(path);
 
-                
-
-
-
-
-
             }
+            else
+            {
+                for (int i = 0; i < n; i++)
+                {
+
+
+                    change = (amounts.ElementAt(i).CryptoValue * 360) / total;
+
+
+                    Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
+                    PathGeometry geometry = new PathGeometry();
+                    PathFigureCollection pathFigures = new PathFigureCollection();
+                    PathFigure pathFigure = new PathFigure();
+                    PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
+                    ArcSegment arcSegment = new ArcSegment();
+
+
+                    gap = 5;
+
+                    if (change > 10)
+                    {
+                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
+                        arcAngle = arcAngle + change;
+
+                    }
+                    else
+                    {
+                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, change + gap * 2);
+                        arcAngle = arcAngle + change;
+
+                    }
+
+
+                    path.Data = geometry;
+                    geometry.Figures = pathFigures;
+                    pathFigures.Add(pathFigure);
+                    pathFigure.Segments.Add(arcSegment);
+
+                    grid.Children.Add(path);
+
+
+
+
+
+
+
+                }
+            }
+          
 
 
 
@@ -217,7 +246,6 @@ namespace ShapesBalanceXamFormsApp
 
     }
 }
-
 
 
 
