@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,196 +11,213 @@ namespace ShapesBalanceXamFormsApp
 {
     public partial class MainPage : ContentPage
     {
+
+
+
+        public class Wallet
+        {
+            public Wallet(double value, Brush color)
+            {
+                CryptoValue = value;
+                Stroke = color;
+            }
+
+            public double CryptoValue { get; private set; }
+            public Brush Stroke { get; private set; }
+        }
+
+        public IEnumerable<Wallet> GetAmount()
+        {
+
+
+            yield return new Wallet(50, Brush.Blue);
+            yield return new Wallet(5, Brush.Gray);
+            yield return new Wallet(5, Brush.Brown);
+            
+        }
+
+        public MainPage()
+        {
+            InitializeComponent();
+
+
+            IEnumerable<Wallet> amounts = GetAmount();
+            double amount = 0;
+
+            foreach (Wallet bal in amounts)
+            {
+                amount += bal.CryptoValue;
+            }
+
+            Grid grid = new Grid
+            {
+                RowDefinitions = { new RowDefinition() },
+                ColumnDefinitions = { new ColumnDefinition() },
+
+            };
+
+            Label currency = new Label
+            {
+                Text = "€",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.Center,
+                TranslationY = 160,
+                TranslationX = -30
+            };
+
+            grid.Children.Add(currency);
+
+            Label balance = new Label
+            {
+                Text = amount.ToString(),
+                FontSize = 25,
+                HorizontalOptions = LayoutOptions.Center,
+                TranslationY = 160
+            };
+
+            grid.Children.Add(balance);
+
+            Label total_tag = new Label
+            {
+                Text = "Amount Balance",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 15,
+                HorizontalOptions = LayoutOptions.Center,
+                TranslationY = 200
+            };
+
+            grid.Children.Add(total_tag);
+
+
+
+            makePies(grid, amounts);
+            Content = grid;
+
+
+
+        }
+
+
+
+        public void makePies(Grid grid, IEnumerable<Wallet> amounts)
+        {
+
+
+            int n = amounts.Count();
+            double change, hold;
+            double arcAngle = 0;
+            double total = 0;
+
+            //manipulate the gap between the arcs
+            double gap;
+
+            
+            
+            
+            foreach (Wallet p in amounts)
+                total += p.CryptoValue;
+
+            for (int i = 0; i < n; i++)
+            {
+
+                
+                change = (amounts.ElementAt(i).CryptoValue * 360) / total;
+                
+
+                Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
+                PathGeometry geometry = new PathGeometry();
+                PathFigureCollection pathFigures = new PathFigureCollection();
+                PathFigure pathFigure = new PathFigure();
+                PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
+                ArcSegment arcSegment = new ArcSegment();
+
+
+                gap = 5;
+
+                if (change > 10)
+                {
+                    arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
+                    arcAngle = arcAngle + change;
+
+                }
+                else
+                {
+                    arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, change + gap*2);
+                    arcAngle = arcAngle + change;
+
+                }
+
+
+                path.Data = geometry;
+                geometry.Figures = pathFigures;
+                pathFigures.Add(pathFigure);
+                pathFigure.Segments.Add(arcSegment);
+
+                grid.Children.Add(path);
+
+                
+
+
+
+
+
+            }
+
+
+
+
+        }
+        private ArcSegment renderArc(Path pathRoot, PathFigure pathFigure, ArcSegment ARC, double startAngle, double endAngle)
+        {
+            double Radius = 150;
+            double angle = 0;
+            bool largeArc = false;
+
+            if (endAngle > 180)
+                largeArc = true;
+
+            pathRoot.StrokeLineCap = PenLineCap.Round;
+            pathRoot.StrokeThickness = 12;
+            ARC.SweepDirection = SweepDirection.Clockwise;
+            ARC.Size = new Size(Radius, Radius);
+            ARC.RotationAngle = angle;
+            ARC.IsLargeArc = largeArc;
+            //////////////////////////
+            pathFigure.StartPoint = ComputeCartesianCoordinate(startAngle, Radius);
+            ARC.Point = ComputeCartesianCoordinate(startAngle + endAngle, Radius);
+
+            return ARC;
+
+        }
+
         private Point ComputeCartesianCoordinate(double angle, double radius)
         {
+            //center (50,50)
+            double cX = 50;
+            double cY = 50;
             // convert to radians
             double angleRad = (Math.PI / 180.0) * (angle - 90);
 
             double x = radius * Math.Cos(angleRad);
             double y = radius * Math.Sin(angleRad);
 
+            x += radius + cX;
+            y += radius + cY;
+
             return new Point(x, y);
-        }
-
-        public void render(double amount)
-        {
-
-            if(amount < 0)
-                return;
-            else if(amount < 1000 && amount > 0)
-            {
-                makePies(10, 10, 5, 5);
-            }
-            else if (amount > 1000 )
-            {
-                makePies(15, 15, 10, 10);
-            }
-
-        }
-
-        public void makePies(double P0, double P1, double P2, double P3)
-        {
-
-            double A0 = (P0 / 100) * 360;
-            double A1 = (P1 / 100) * 360;
-            double A2 = (P2 / 100) * 360;
-            double A3 = (P3 / 100) * 360;
-           
-
-            double Radius = 150;
-            double cX = 50;
-            double cY = 50;
-            double angle = 0;
-            
-            bool largeArc = angle > 180.0;
-            grayPath.HorizontalOptions = LayoutOptions.Center;
-            grayPath.VerticalOptions = LayoutOptions.Center;
-            grayPath.StrokeLineCap = PenLineCap.Round;
-            grayPath.StrokeThickness = 12;
-            pathRoot.StrokeLineCap = PenLineCap.Round;
-            pathRoot.StrokeThickness = 12;
-            pathRoot2.StrokeLineCap = PenLineCap.Round;
-            pathRoot2.StrokeThickness = 12;
-            pathRoot3.StrokeLineCap = PenLineCap.Round;
-            pathRoot3.StrokeThickness = 12;
-
-
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    startPoint.X -= 0.01;
-
-
-
-
-
-
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-
-            /////////////////////////////////////////////////////////////
-            ///ARC0
-            /////////////////////////////////////////////////////////////
-
-            double arcAngle = 5;
-            Point startPoint = ComputeCartesianCoordinate(arcAngle, Radius);
-            Point endPoint = ComputeCartesianCoordinate(arcAngle + A0, Radius);
-
-            startPoint.X += Radius + cX;
-            startPoint.Y += Radius + cY;
-            endPoint.X += Radius + cX;
-            endPoint.Y += Radius + cY;
-            grayPathFigure.StartPoint = startPoint;//new Point(50, 200);
-            grayArcSegment.Point = endPoint;//new Point(100, 90);
-            ////
-            grayArcSegment.SweepDirection = SweepDirection.Clockwise;
-            grayArcSegment.Size = new Size(Radius, Radius);
-            grayArcSegment.RotationAngle = angle;
-            grayArcSegment.IsLargeArc = largeArc;
-            /////////////////////////////////////////////////////////////
-            ///ARC1
-            /////////////////////////////////////////////////////////////
-            double arc1Angle = 95;
-
-            startPoint = ComputeCartesianCoordinate(arc1Angle, Radius);
-            startPoint.X += Radius + cX;
-            startPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    startPoint.X -= 0.01;
-
-
-            endPoint = ComputeCartesianCoordinate(arc1Angle + A1, Radius);
-            endPoint.X += Radius + cX;
-            endPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-            pathFigure.StartPoint = startPoint; //new Point(endPoint.X, endPoint.Y + 15);
-            arcSegment.Point = endPoint;
-            ////
-            arcSegment.SweepDirection = SweepDirection.Clockwise;
-            arcSegment.Size = new Size(Radius, Radius);
-            arcSegment.RotationAngle = angle;
-            arcSegment.IsLargeArc = largeArc;
-            /////////////////////////////////////////////////////////////
-            ///ARC2
-            /////////////////////////////////////////////////////////////
-            double arc2Angle = 185;
-
-            startPoint = ComputeCartesianCoordinate(arc2Angle, Radius);
-            startPoint.X += Radius + cX;
-            startPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-
-            endPoint = ComputeCartesianCoordinate(arc2Angle + A2, Radius);
-            endPoint.X += Radius + cX;
-            endPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-
-            pathFigure2.StartPoint = startPoint;
-            arcSegment2.Point = endPoint;
-            ////
-            arcSegment2.SweepDirection = SweepDirection.Clockwise;
-            arcSegment2.Size = new Size(Radius, Radius);
-            arcSegment2.RotationAngle = angle;
-            arcSegment2.IsLargeArc = false;
-            /////////////////////////////////////////////////////////////
-            ///ARC3
-            /////////////////////////////////////////////////////////////
-            double arc3Angle = 275;
-
-            startPoint = ComputeCartesianCoordinate(arc3Angle, Radius);
-            startPoint.X += Radius + cX;
-            startPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-
-            endPoint = ComputeCartesianCoordinate(arc3Angle + A3, Radius);
-            endPoint.X += Radius + cX;
-            endPoint.Y += Radius + cY;
-            //if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-            //    endPoint.X -= 0.01;
-
-            pathFigure3.StartPoint = startPoint;
-            arcSegment3.Point = endPoint;
-
-            arcSegment3.SweepDirection = SweepDirection.Clockwise;
-            arcSegment3.Size = new Size(Radius, Radius);
-            arcSegment3.RotationAngle = angle;
-            arcSegment3.IsLargeArc = false;
-
-        }
-
-        public MainPage()
-        {
-          InitializeComponent();
-        
-
-
-
-            //constants
-
-            double amount = 2000;
-            Currency.Text = "€";
-            Amount.Text = amount.ToString();
-
-            Currency.TextColor = Color.Black;
-            Currency.FontSize = 20;
-            Currency.TranslationY = -10;
-            Amount.TextColor = Color.Black;
-
-            render(amount);
-            //label.Text = amount.ToString();
-            
 
         }
 
 
 
-        
+
+
+
+
     }
 }
+
+
+
+
