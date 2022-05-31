@@ -160,7 +160,7 @@ namespace ShapesBalanceXamFormsApp
                     ArcSegment arcSegment = new ArcSegment();
 
 
-                    gap = 5;
+                    gap = 2.5;
 
                     if (change > 10)
                     {
