@@ -31,8 +31,8 @@ namespace ShapesBalanceXamFormsApp
 
 
             //yield return new Wallet(50, Brush.Blue);
-            //yield return new Wallet(5, Brush.Gray);
-            yield return new Wallet(5, Brush.Brown);
+            yield return new Wallet(98, Brush.Gray);
+            yield return new Wallet(2, Brush.Brown);
 
         }
 
@@ -103,9 +103,9 @@ namespace ShapesBalanceXamFormsApp
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
 
-
+            int lowestNaturalNumber = 1;
             int n = amounts.Count();
-            double change, hold;
+            double change;
             double arcAngle = 0;
             double total = 0;
 
@@ -118,7 +118,7 @@ namespace ShapesBalanceXamFormsApp
             foreach (Wallet p in amounts)
                 total += p.CryptoValue;
 
-            if (n == 1 )
+            if (n == 1)
             {
 
 
@@ -133,8 +133,8 @@ namespace ShapesBalanceXamFormsApp
                 ArcSegment arcSegment = new ArcSegment();
 
                 arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
-                
-                
+
+
                 path.Data = geometry;
                 geometry.Figures = pathFigures;
                 pathFigures.Add(pathFigure);
@@ -162,7 +162,7 @@ namespace ShapesBalanceXamFormsApp
 
                     gap = 2.5;
 
-                    if (change > 10)
+                    if (change > lowestNaturalNumber)
                     {
                         arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
                         arcAngle = arcAngle + change;
@@ -191,7 +191,7 @@ namespace ShapesBalanceXamFormsApp
 
                 }
             }
-          
+
 
 
 
@@ -246,6 +246,5 @@ namespace ShapesBalanceXamFormsApp
 
     }
 }
-
 
 
