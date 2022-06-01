@@ -102,13 +102,14 @@ namespace ShapesBalanceXamFormsApp
 
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
-
+            
             int lowestNaturalNumber = 1;
             int n = amounts.Count();
-            double change;
+            
+            double lengthOfArc;
             double arcAngle = 0;
             double total = 0;
-
+            
             //manipulate the gap between the arcs
             double gap;
 
@@ -122,7 +123,7 @@ namespace ShapesBalanceXamFormsApp
             {
 
 
-                change = 360;
+                lengthOfArc = 360;
                 gap = 0;
 
                 Path path = new Path { Stroke = amounts.ElementAt(0).Stroke };
@@ -132,7 +133,7 @@ namespace ShapesBalanceXamFormsApp
                 PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
                 ArcSegment arcSegment = new ArcSegment();
 
-                arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
+                arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
 
 
                 path.Data = geometry;
@@ -149,7 +150,7 @@ namespace ShapesBalanceXamFormsApp
                 {
 
 
-                    change = (amounts.ElementAt(i).CryptoValue * 360) / total;
+                    lengthOfArc = (amounts.ElementAt(i).CryptoValue * 360) / total;
 
 
                     Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
@@ -162,16 +163,16 @@ namespace ShapesBalanceXamFormsApp
 
                     gap = 2.5;
 
-                    if (change > lowestNaturalNumber)
+                    if (lengthOfArc > lowestNaturalNumber)
                     {
-                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, change - gap * 2);
-                        arcAngle = arcAngle + change;
+                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                        arcAngle = arcAngle + lengthOfArc;
 
                     }
                     else
                     {
-                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, change + gap * 2);
-                        arcAngle = arcAngle + change;
+                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
+                        arcAngle = arcAngle + lengthOfArc;
 
                     }
 
