@@ -133,7 +133,7 @@ namespace ShapesBalanceXamFormsApp
                 PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
                 ArcSegment arcSegment = new ArcSegment();
 
-                arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
 
 
                 path.Data = geometry;
@@ -165,13 +165,13 @@ namespace ShapesBalanceXamFormsApp
 
                     if (lengthOfArc > lowestNaturalNumber)
                     {
-                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                        renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
                         arcAngle = arcAngle + lengthOfArc;
 
                     }
                     else
                     {
-                        arcSegment = renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
+                        renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
                         arcAngle = arcAngle + lengthOfArc;
 
                     }
@@ -198,7 +198,7 @@ namespace ShapesBalanceXamFormsApp
 
 
         }
-        private ArcSegment renderArc(Path pathRoot, PathFigure pathFigure, ArcSegment ARC, double startAngle, double endAngle)
+        private void renderArc(Path pathRoot, PathFigure pathFigure, ArcSegment ARC, double startAngle, double endAngle)
         {
             double Radius = 150;
             double angle = 0;
@@ -217,7 +217,7 @@ namespace ShapesBalanceXamFormsApp
             pathFigure.StartPoint = ComputeCartesianCoordinate(startAngle, Radius);
             ARC.Point = ComputeCartesianCoordinate(startAngle + endAngle, Radius);
 
-            return ARC;
+            
 
         }
 
