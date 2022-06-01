@@ -103,7 +103,7 @@ namespace ShapesBalanceXamFormsApp
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
             
-            int lowestNaturalNumber = 1;
+            
             int n = amounts.Count();
             
             double lengthOfArc;
@@ -151,6 +151,7 @@ namespace ShapesBalanceXamFormsApp
 
 
                     lengthOfArc = (amounts.ElementAt(i).CryptoValue * 360) / total;
+                    
 
 
                     Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
@@ -160,21 +161,13 @@ namespace ShapesBalanceXamFormsApp
                     PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
                     ArcSegment arcSegment = new ArcSegment();
 
-
                     gap = 2.5;
+                    //lengthOfArc = setArcSizeAndArcAngle(lengthOfArc, gap, arcAngle, path, pathFigure, arcSegment);
+                    arcAngle = setArcAngle(lengthOfArc, gap, arcAngle, path, pathFigure, arcSegment);
 
-                    if (lengthOfArc > lowestNaturalNumber)
-                    {
-                        renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
-                        arcAngle = arcAngle + lengthOfArc;
 
-                    }
-                    else
-                    {
-                        renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
-                        arcAngle = arcAngle + lengthOfArc;
 
-                    }
+
 
 
                     path.Data = geometry;
@@ -197,6 +190,26 @@ namespace ShapesBalanceXamFormsApp
 
 
 
+        }
+
+        public double setArcAngle(double lengthOfArc, double gap, double arcAngle, Path path, PathFigure pathFigure, ArcSegment arcSegment)
+        {
+            int lowestNaturalNumber = 1;
+
+            if (lengthOfArc > lowestNaturalNumber)
+            {
+                renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                arcAngle = arcAngle + lengthOfArc;
+
+            }
+            else
+            {
+                renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
+                arcAngle = arcAngle + lengthOfArc;
+
+            }
+
+            return arcAngle;
         }
         private void renderArc(Path pathRoot, PathFigure pathFigure, ArcSegment ARC, double startAngle, double endAngle)
         {
