@@ -6,9 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
+using static ShapesBalanceXamFormsApp.MainPage;
 
 namespace ShapesBalanceXamFormsApp
 {
+    public partial class Normalization
+    {
+        public static IEnumerable<Wallet> Normalize(IEnumerable<Wallet> wallets)
+        {
+            return wallets;
+        }
+    }
+
     public partial class MainPage : ContentPage
     {
 
