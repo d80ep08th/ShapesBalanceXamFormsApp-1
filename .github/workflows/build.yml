@@ -14,7 +14,7 @@ jobs:
           dotnet restore
           dotnet build ShapesBalanceXamFormsApp/ShapesBalanceXamFormsApp.csproj
       - name: Test
-        run: dotnet test
+        run: dotnet test .\TestXamApp\TestXamApp.csproj
   
   build-for-linux:
     runs-on: ubuntu-20.04
@@ -24,7 +24,9 @@ jobs:
         run: |
           sudo apt install -y libgtk2.0-cil-dev
       - name: Restore packages
-        run: nuget restore
+        run: |
+          nuget restore ShapesBalanceXamFormsApp/ShapesBalanceXamFormsApp.csproj
+          nuget restore ShapesBalanceXamFormsApp.GTK/ShapesBalanceXamFormsApp.GTK.csproj
       - name: Build
         run: |
           msbuild ShapesBalanceXamFormsApp/ShapesBalanceXamFormsApp.csproj
