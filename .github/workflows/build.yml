@@ -13,7 +13,7 @@ jobs:
         run: |
           dotnet restore
           dotnet build ShapesBalanceXamFormsApp/ShapesBalanceXamFormsApp.csproj
-      -name: Test
+      - name: Test
         run: dotnet test
   
   build-for-linux:
