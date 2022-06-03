@@ -12,10 +12,74 @@ namespace ShapesBalanceXamFormsApp
 {
     public partial class Normalization
     {
-        public static IEnumerable<Wallet> Normalize(IEnumerable<Wallet> wallets)
+        public static IEnumerable<Percentage> Normalize(IEnumerable<Wallet> wallets)
         {
-            return wallets;
+
+
+            double minimumShowablePercentage =  2;
+            double visiblePercentageLimit = 1;
+            double percent = 0;
+            
+            List<Percentage> Pies = new List<Percentage>();
+
+
+            var total = wallets.Sum(x => x.CryptoValue);
+
+
+
+
+            
+            foreach(Wallet balance in wallets)
+            {
+                percent = balance.CryptoValue * 100 / total;
+
+
+
+                
+                if (100  >= percent && percent >= minimumShowablePercentage)
+                {
+                    //no normalization
+                    Pies.Add(new Percentage(percent, balance.Stroke));
+                }
+                else if (minimumShowablePercentage > percent && percent >= visiblePercentageLimit)
+                {
+                    //normalize to 2%
+                     
+                    percent = minimumShowablePercentage;
+                    Pies.Add(new Percentage(percent, balance.Stroke));
+                }
+                /*
+                else if (visiblePercentageLimit > percent)
+                {
+                    //normalizes to 0%
+                    percent = 0;
+                    yield return new percentage(percent, balance.Stroke);
+                }
+                
+
+                */
+            }
+
+            var wholePie = Pies.Sum(x => x.Percent);
+            Pies = Pies.OrderByDescending(x => x.Percent).ToList();
+            
+            if(wholePie > 100)
+            {
+                Pies[0].Percent = Pies[0].Percent - (wholePie - 100);
+
+            }
+            else if(wholePie < 100)
+            {
+                Pies[Pies.Count - 1].Percent = Pies[Pies.Count -1].Percent + (100 - wholePie);
+            }
+
+
+            return Pies; 
+            
         }
+        
+
+
     }
 
     public partial class MainPage : ContentPage
@@ -33,6 +97,18 @@ namespace ShapesBalanceXamFormsApp
 
             public double CryptoValue { get; private set; }
             public Brush Stroke { get; private set; }
+        }
+
+        public class Percentage
+        {
+            public Percentage(double value, Brush color)
+            {
+                Percent = value;
+                stroke = color;
+            }
+
+            public double Percent { get; set; }
+            public Brush stroke { get; private set; }
         }
 
         public IEnumerable<Wallet> GetAmount()
