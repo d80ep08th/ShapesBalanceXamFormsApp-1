@@ -105,6 +105,11 @@ namespace ShapesBalanceXamFormsApp
             {
                 Percent = value;
                 Stroke = color;
+
+                if(100 < Percent || Percent < 0)
+                {
+                    throw new ArgumentException(" Value is not between 100 and 0");
+                }
             }
 
             public double Percent { get; set; }
