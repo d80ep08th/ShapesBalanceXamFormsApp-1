@@ -65,12 +65,12 @@ namespace ShapesBalanceXamFormsApp
             
             if(wholePie > 100)
             {
-                Pies[0].Percent = Pies[0].Percent - (wholePie - 100);
+                Pies[0].Percent -= (wholePie - 100);
 
             }
             else if(wholePie < 100)
             {
-                Pies[Pies.Count - 1].Percent = Pies[Pies.Count -1].Percent + (100 - wholePie);
+                Pies[Pies.Count - 1].Percent += (100 - wholePie);
             }
 
 
@@ -103,13 +103,16 @@ namespace ShapesBalanceXamFormsApp
         {
             public Percentage(double value, Brush color)
             {
-                Percent = value;
-                Stroke = color;
 
-                if(100 < Percent || Percent < 0)
+                if (Percent > 100 || 0 > Percent )
                 {
                     throw new ArgumentException(" Value is not between 100 and 0");
                 }
+
+                Percent = value;
+                Stroke = color;
+
+
             }
 
             public double Percent { get; set; }
