@@ -104,11 +104,11 @@ namespace ShapesBalanceXamFormsApp
             public Percentage(double value, Brush color)
             {
                 Percent = value;
-                stroke = color;
+                Stroke = color;
             }
 
             public double Percent { get; set; }
-            public Brush stroke { get; private set; }
+            public Brush Stroke { get; private set; }
         }
 
         public IEnumerable<Wallet> GetAmount()
@@ -187,8 +187,8 @@ namespace ShapesBalanceXamFormsApp
 
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
-            
-            
+            IEnumerable<Percentage> Pies = new List<Percentage>();
+          
             int n = amounts.Count();
             
             double lengthOfArc;
@@ -231,15 +231,14 @@ namespace ShapesBalanceXamFormsApp
             }
             else
             {
+
+                Pies = Normalization.Normalize(amounts);
+
                 for (int i = 0; i < n; i++)
                 {
-
-
-                    lengthOfArc = (amounts.ElementAt(i).CryptoValue * 360) / total;
-                    
-
-
-                    Path path = new Path { Stroke = amounts.ElementAt(i).Stroke };
+                    lengthOfArc = (Pies.ElementAt(i).Percent) * 360 / 100;
+                   
+                    Path path = new Path { Stroke = Pies.ElementAt(i).Stroke };
                     PathGeometry geometry = new PathGeometry();
                     PathFigureCollection pathFigures = new PathFigureCollection();
                     PathFigure pathFigure = new PathFigure();
