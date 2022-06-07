@@ -124,8 +124,9 @@ namespace ShapesBalanceXamFormsApp
 
 
             //yield return new Wallet(50, Brush.Blue);
-            yield return new Wallet(98, Brush.Gray);
-            yield return new Wallet(2, Brush.Brown);
+            yield return new Wallet(750, Brush.Gray);
+            yield return new Wallet(325, Brush.Brown);
+            yield return new Wallet(425, Brush.Green);
 
         }
 
