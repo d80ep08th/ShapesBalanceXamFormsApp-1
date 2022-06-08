@@ -103,7 +103,23 @@ namespace TestXamApp
             Assert.AreEqual(normalizedWallets.ElementAt(0).Percent, 100);
         }
 
+        [TestMethod]
+        public void TestBeautifyAmount()
+        {
 
+            var wallets = new List<MainPage.Wallet>()
+            {
+                new MainPage.Wallet(99.5, Brush.Blue),
+                new MainPage.Wallet(0.5, Brush.Brown)
 
+            };
+            var balance = wallets.Sum(x => x.CryptoValue);
+            var beautifiedAmount = Beautification.BeautifyAmount(balance.ToString());
+
+            Assert.AreEqual(beautifiedAmount, balance.ToString());
+        }
     }
+
+
+    
 }

@@ -85,7 +85,7 @@ namespace ShapesBalanceXamFormsApp
 
         public static string BeautifyAmount(string balance)
         {
-            throw new NotImplementedException();
+            return balance;
 
         }
 
