@@ -77,10 +77,22 @@ namespace ShapesBalanceXamFormsApp
             return Pies; 
             
         }
-        
+    }
+
+    public partial class Beautification
+    {
+
+
+        public static string BeautifyAmount(string balance)
+        {
+            throw new NotImplementedException();
+
+        }
+
 
 
     }
+
 
     public partial class MainPage : ContentPage
     {
@@ -163,7 +175,7 @@ namespace ShapesBalanceXamFormsApp
 
             //Beautify this
 
-            var beautifiedAmount = BeautifyAmount(amount.ToString());
+            var beautifiedAmount = Beautification.BeautifyAmount(amount.ToString());
 
             Label balance = new Label
             {
@@ -196,10 +208,7 @@ namespace ShapesBalanceXamFormsApp
 
         }
 
-        public string BeautifyAmount(string balance)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
