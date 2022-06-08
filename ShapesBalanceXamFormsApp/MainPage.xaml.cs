@@ -85,7 +85,24 @@ namespace ShapesBalanceXamFormsApp
 
         public static string BeautifyAmount(string balance)
         {
+            //100000 => 6
+            var digits = balance.Length;
+            
+            
+  
+            //6>4
+            if  (digits >= 4)
+            {
+                //100,000
+                balance = balance.Insert(digits-3, ",");
+            }
+            else if (digits >= 7)
+            {
+                    balance = balance.Insert(digits-7, ",");
+            }
+
             return balance;
+
 
         }
 

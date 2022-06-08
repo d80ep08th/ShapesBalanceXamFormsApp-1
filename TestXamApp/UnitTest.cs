@@ -109,14 +109,16 @@ namespace TestXamApp
 
             var wallets = new List<MainPage.Wallet>()
             {
-                new MainPage.Wallet(99.5, Brush.Blue),
-                new MainPage.Wallet(0.5, Brush.Brown)
+                new MainPage.Wallet(90000, Brush.Blue),
+                new MainPage.Wallet(10000, Brush.Brown)
 
             };
+
             var balance = wallets.Sum(x => x.CryptoValue);
+            
             var beautifiedAmount = Beautification.BeautifyAmount(balance.ToString());
 
-            Assert.AreEqual(beautifiedAmount, balance.ToString());
+            Assert.AreEqual("100,000", beautifiedAmount);
         }
     }
 
