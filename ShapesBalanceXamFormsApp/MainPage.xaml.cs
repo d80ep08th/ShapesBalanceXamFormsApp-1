@@ -150,6 +150,7 @@ namespace ShapesBalanceXamFormsApp
 
             };
 
+            //Beautify this
             Label currency = new Label
             {
                 Text = "€",
@@ -160,17 +161,17 @@ namespace ShapesBalanceXamFormsApp
                 TranslationX = -30
             };
 
-            grid.Children.Add(currency);
+            //Beautify this
+
+            var beautifiedAmount = BeautifyAmount(amount.ToString());
 
             Label balance = new Label
             {
-                Text = amount.ToString(),
+                Text = beautifiedAmount,
                 FontSize = 25,
                 HorizontalOptions = LayoutOptions.Center,
                 TranslationY = 160
             };
-
-            grid.Children.Add(balance);
 
             Label total_tag = new Label
             {
@@ -181,18 +182,24 @@ namespace ShapesBalanceXamFormsApp
                 TranslationY = 200
             };
 
+            grid.Children.Add(currency);
+            grid.Children.Add(balance);
             grid.Children.Add(total_tag);
 
 
 
             makePies(grid, amounts);
+            
             Content = grid;
 
 
 
         }
 
-
+        public string BeautifyAmount(string balance)
+        {
+            throw new NotImplementedException();
+        }
 
         public void makePies(Grid grid, IEnumerable<Wallet> amounts)
         {
