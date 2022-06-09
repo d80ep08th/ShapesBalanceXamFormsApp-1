@@ -169,19 +169,17 @@ namespace ShapesBalanceXamFormsApp
 
             };
 
-            //Beautify this
-            Label currency = new Label
+
+
+
+            Label approx = new Label
             {
-                Text = "€",
-                FontAttributes = FontAttributes.Bold,
-                FontSize = 16,
+                Text = "~",
+                FontSize = 25,
                 HorizontalOptions = LayoutOptions.Center,
                 TranslationY = 160,
-                TranslationX = -30
+            TranslationX = -40
             };
-
-            //Beautify this
-
             var beautifiedAmount = Beautification.BeautifyAmount(amount.ToString());
 
             Label balance = new Label
@@ -190,6 +188,17 @@ namespace ShapesBalanceXamFormsApp
                 FontSize = 25,
                 HorizontalOptions = LayoutOptions.Center,
                 TranslationY = 160
+            };
+
+            
+            Label currency = new Label
+            {
+                Text = "U.S.D.",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 24,
+                HorizontalOptions = LayoutOptions.Center,
+                TranslationY = 160,
+                TranslationX = 65
             };
 
             Label total_tag = new Label
@@ -201,6 +210,7 @@ namespace ShapesBalanceXamFormsApp
                 TranslationY = 200
             };
 
+            grid.Children.Add(approx);
             grid.Children.Add(currency);
             grid.Children.Add(balance);
             grid.Children.Add(total_tag);
