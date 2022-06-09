@@ -109,8 +109,8 @@ namespace TestXamApp
 
             var wallets = new List<MainPage.Wallet>()
             {
-                new MainPage.Wallet(90000, Brush.Blue),
-                new MainPage.Wallet(10000, Brush.Brown)
+                new MainPage.Wallet(900000000, Brush.Blue),
+                new MainPage.Wallet(100000000, Brush.Brown)
 
             };
 
@@ -118,7 +118,7 @@ namespace TestXamApp
             
             var beautifiedAmount = Beautification.BeautifyAmount(balance.ToString());
 
-            Assert.AreEqual("100,000", beautifiedAmount);
+            Assert.AreEqual("1,000,000,000", beautifiedAmount);
         }
     }
 
