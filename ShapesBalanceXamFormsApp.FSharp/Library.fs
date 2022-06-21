@@ -25,7 +25,7 @@ module PieChart =
 
         Point(x,y)
 
-    let renderArc (pathRoot:Path, pathFigure:PathFigure, arc:ArcSegment, startAngle:double, endAngle:double) = 
+    let renderArc (pathRoot:Path) (pathFigure:PathFigure) (arc:ArcSegment) (startAngle:double) (endAngle:double) = 
         
         let radius = 150.
         let angle =  0.
@@ -46,3 +46,15 @@ module PieChart =
         pathFigure.StartPoint <- computeCartesianCoordinate startAngle  radius
         arc.Point <- computeCartesianCoordinate (startAngle + endAngle) radius
         ()
+
+    let setArcAngle (lengthOfArc:double, gap:double, arcAngle:double, path:Path, pathFigure:PathFigure, arcSegment:ArcSegment) =
+    
+        let lowestNaturalNumber = 1.
+        let arcAngle =
+            if lengthOfArc > lowestNaturalNumber then
+                renderArc path pathFigure arcSegment (arcAngle + gap) (lengthOfArc - gap * 2.)
+                arcAngle + lengthOfArc                            
+            else
+                renderArc path pathFigure arcSegment (arcAngle - gap) (lengthOfArc + gap * 2.)
+                arcAngle + lengthOfArc
+        arcAngle

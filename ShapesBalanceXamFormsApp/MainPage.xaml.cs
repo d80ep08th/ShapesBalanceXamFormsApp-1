@@ -290,7 +290,7 @@ namespace ShapesBalanceXamFormsApp
 
                     gap = 2.5;
                     //lengthOfArc = setArcSizeAndArcAngle(lengthOfArc, gap, arcAngle, path, pathFigure, arcSegment);
-                    arcAngle = setArcAngle(lengthOfArc, gap, arcAngle, path, pathFigure, arcSegment);
+                    arcAngle = Frontend.FSharp.PieChart.setArcAngle(lengthOfArc, gap, arcAngle, path, pathFigure, arcSegment);
 
 
 
@@ -319,25 +319,7 @@ namespace ShapesBalanceXamFormsApp
 
         }
 
-        public double setArcAngle(double lengthOfArc, double gap, double arcAngle, Path path, PathFigure pathFigure, ArcSegment arcSegment)
-        {
-            int lowestNaturalNumber = 1;
 
-            if (lengthOfArc > lowestNaturalNumber)
-            {
-                Frontend.FSharp.PieChart.renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
-                arcAngle = arcAngle + lengthOfArc;
-
-            }
-            else
-            {
-                Frontend.FSharp.PieChart.renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
-                arcAngle = arcAngle + lengthOfArc;
-
-            }
-
-            return arcAngle;
-        }
 
 
 
