@@ -13,65 +13,11 @@ namespace ShapesBalanceXamFormsApp
 {
 
 
-    public partial class Beautification
-    {
 
-
-        public static string BeautifyAmount(string balance)
-        {
-            var digits = balance.Length;
-            var position = 4;
-            for (var i = 1; position*i <= digits; i++ )
-            { 
-
-                balance = balance.Insert(digits + 1 - position*i, ",");
-                digits = balance.Length;
-            }
-            return balance;
-        }
-
-
-
-    }
 
 
     public partial class MainPage : ContentPage
     {
-
-        /*
-
-        public class Wallet
-        {
-            public Wallet(double value, Brush color)
-            {
-                CryptoValue = value;
-                Stroke = color;
-            }
-
-            public double CryptoValue { get; private set; }
-            public Brush Stroke { get; private set; }
-        }
-
-        public class Percentage
-        {
-            public Percentage(double value, Brush color)
-            {
-
-                if (Percent > 100 || 0 > Percent )
-                {
-                    throw new ArgumentException(" Value is not between 100 and 0");
-                }
-
-                Percent = value;
-                Stroke = color;
-
-
-            }
-
-            public double Percent { get; set; }
-            public Brush Stroke { get; private set; }
-        }
-        */
 
         public IEnumerable<Frontend.FSharp.Wallet> GetAmount()
         {
@@ -115,7 +61,7 @@ namespace ShapesBalanceXamFormsApp
                 TranslationY = 160,
             TranslationX = -40
             };
-            var beautifiedAmount = Beautification.BeautifyAmount(amount.ToString());
+            var beautifiedAmount = Frontend.FSharp.PieChart.beautifyAmount(amounts);
 
             Label balance = new Label
             {

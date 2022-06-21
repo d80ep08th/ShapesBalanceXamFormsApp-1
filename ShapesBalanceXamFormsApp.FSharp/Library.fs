@@ -115,4 +115,30 @@ module PieChart =
 
         result
 
+    let beautifyAmount (wallet:seq<Wallet>) =
+        
+        let total = 
+            wallet |> Seq.sumBy(fun x -> x.CryptoValue)
+        
+        let value = total.ToString()
+        let mutable balance = value
+        let mutable digits = balance.Length
+
+        let place = 4 
+        
+
+
+        for digit in 1..digits do
+            if place*digit <= digits then
+                
+                balance <- balance.Insert(digits+1-place*digit,",")
+                digits <- balance.Length
+
+        balance
+
+
+
+
+
+
 

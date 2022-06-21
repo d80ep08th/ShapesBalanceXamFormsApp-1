@@ -115,8 +115,8 @@ namespace TestXamApp
             };
 
             var balance = wallets.Sum(x => x.CryptoValue);
-            
-            var beautifiedAmount = Beautification.BeautifyAmount(balance.ToString());
+
+            string? beautifiedAmount = Frontend.FSharp.PieChart.beautifyAmount(wallets);
 
             Assert.AreEqual("1,000,000,000", beautifiedAmount);
         }
