@@ -9,6 +9,7 @@ open Xamarin.Forms
 open Xamarin.Forms.Shapes
 open System.Threading.Tasks
 open System.ComponentModel
+open Microsoft.FSharp.Collections
 
 type Wallet = { CryptoValue: double ; Stroke: Brush }
 type Percentage =  { mutable Percent: double;  Stroke: Brush } 
@@ -62,5 +63,56 @@ module PieChart =
                 renderArc path pathFigure arcSegment (arcAngle - gap) (lengthOfArc + gap * 2.)
                 arcAngle + lengthOfArc
         arcAngle
+
+    let Normalize (wallets: seq<Wallet>)  =
+        
+        let minimumShowablePercentage =  2.
+        let visiblePercentageLimit = 1.
+        let fullPie = 100.
+
+        let total = wallets |> Seq.sumBy(fun x -> x.CryptoValue)
+            //wallets |> Seq.sum(fun x -> x.CryptoValue)
+            //wallets |> List.sumBy(fun x -> x.CryptoValue)
+        
+        let innerNormalize (wallet: Wallet) : Option<Percentage> =
+            
+            let percent = wallet.CryptoValue * fullPie / total
+            
+            if fullPie  >= percent && percent >= minimumShowablePercentage then        
+      
+                {Percentage.Percent = percent; Stroke = wallet.Stroke} |> Some
+            
+            elif minimumShowablePercentage > percent && percent >= visiblePercentageLimit then
+            
+                {Percentage.Percent = minimumShowablePercentage; Stroke = wallet.Stroke} |> Some
+            
+            else 
+                None
+
+        let pies =  
+            wallets |> Seq.choose innerNormalize//List.choose innerNormalize
+
+
+        
+
+        let wholePie = 
+            pies |> Seq.sumBy(fun x -> x.Percent)
+
+        let sortedPies = 
+            pies |> Seq.sortByDescending(fun x -> x.Percent)
+            
+        let result = 
+            sortedPies |> Seq.mapi (fun index  x -> 
+
+                if index = 0 && wholePie > fullPie then
+                    {x with Percent =  x.Percent - (wholePie - fullPie)}
+                elif index = (Seq.length(sortedPies)-1) && wholePie < fullPie then
+                    {x with Percent = x.Percent + (fullPie - wholePie)}
+                else
+                    x
+            )
+
+
+        result
 
 

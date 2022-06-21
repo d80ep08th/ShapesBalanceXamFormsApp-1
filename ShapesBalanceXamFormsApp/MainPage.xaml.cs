@@ -11,74 +11,7 @@ using static ShapesBalanceXamFormsApp.MainPage;
 
 namespace ShapesBalanceXamFormsApp
 {
-    public partial class Normalization
-    {
-        public static IEnumerable<Frontend.FSharp.Percentage> Normalize(IEnumerable<Frontend.FSharp.Wallet> wallets)
-        {
 
-
-            double minimumShowablePercentage =  2;
-            double visiblePercentageLimit = 1;
-            double percent = 0;
-            
-            List<Frontend.FSharp.Percentage> Pies = new List<Frontend.FSharp.Percentage>();
-
-
-            var total = wallets.Sum(x => x.CryptoValue);
-
-
-
-
-            
-            foreach(Frontend.FSharp.Wallet balance in wallets)
-            {
-                percent = balance.CryptoValue * 100 / total;
-
-
-
-                
-                if (100  >= percent && percent >= minimumShowablePercentage)
-                {
-                    //no normalization
-                    Pies.Add(new Frontend.FSharp.Percentage(percent, balance.Stroke));
-                }
-                else if (minimumShowablePercentage > percent && percent >= visiblePercentageLimit)
-                {
-                    //normalize to 2%
-                     
-                    percent = minimumShowablePercentage;
-                    Pies.Add(new Frontend.FSharp.Percentage(percent, balance.Stroke));
-                }
-                /*
-                else if (visiblePercentageLimit > percent)
-                {
-                    //normalizes to 0%
-                    percent = 0;
-                    yield return new percentage(percent, balance.Stroke);
-                }
-                
-
-                */
-            }
-
-            var wholePie = Pies.Sum(x => x.Percent);
-            Pies = Pies.OrderByDescending(x => x.Percent).ToList();
-            
-            if(wholePie > 100)
-            {
-                Pies[0].Percent -= (wholePie - 100);
-
-            }
-            else if(wholePie < 100)
-            {
-                Pies[Pies.Count - 1].Percent += (100 - wholePie);
-            }
-
-
-            return Pies; 
-            
-        }
-    }
 
     public partial class Beautification
     {
@@ -276,7 +209,7 @@ namespace ShapesBalanceXamFormsApp
             else
             {
 
-                Pies = Normalization.Normalize(amounts);
+                Pies = Frontend.FSharp.PieChart.Normalize(amounts);
 
                 for (int i = 0; i < n; i++)
                 {
