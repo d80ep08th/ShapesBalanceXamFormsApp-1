@@ -1,4 +1,4 @@
-﻿namespace ShapesBalanceXamFormsApp.FSharp
+﻿namespace Frontend.FSharp
 
 open System
 open System.Linq

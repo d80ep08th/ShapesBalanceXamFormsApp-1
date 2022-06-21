@@ -354,8 +354,8 @@ namespace ShapesBalanceXamFormsApp
             ARC.RotationAngle = angle;
             ARC.IsLargeArc = largeArc;
             //////////////////////////
-            pathFigure.StartPoint = ShapesBalanceXamFormsApp.FSharp.PieChart.computeCartesianCoordinate(startAngle, Radius);
-            ARC.Point = ShapesBalanceXamFormsApp.FSharp.PieChart.computeCartesianCoordinate(startAngle + endAngle, Radius);
+            pathFigure.StartPoint = Frontend.FSharp.PieChart.computeCartesianCoordinate(startAngle, Radius);
+            ARC.Point = Frontend.FSharp.PieChart.computeCartesianCoordinate(startAngle + endAngle, Radius);
 
             
 
