@@ -261,7 +261,7 @@ namespace ShapesBalanceXamFormsApp
                 PathSegmentCollection pathSegmentCollection = new PathSegmentCollection();
                 ArcSegment arcSegment = new ArcSegment();
 
-                renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                Frontend.FSharp.PieChart.renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
 
 
                 path.Data = geometry;
@@ -325,41 +325,20 @@ namespace ShapesBalanceXamFormsApp
 
             if (lengthOfArc > lowestNaturalNumber)
             {
-                renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
+                Frontend.FSharp.PieChart.renderArc(path, pathFigure, arcSegment, arcAngle + gap, lengthOfArc - gap * 2);
                 arcAngle = arcAngle + lengthOfArc;
 
             }
             else
             {
-                renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
+                Frontend.FSharp.PieChart.renderArc(path, pathFigure, arcSegment, arcAngle - gap, lengthOfArc + gap * 2);
                 arcAngle = arcAngle + lengthOfArc;
 
             }
 
             return arcAngle;
         }
-        private void renderArc(Path pathRoot, PathFigure pathFigure, ArcSegment ARC, double startAngle, double endAngle)
-        {
-            double Radius = 150;
-            double angle = 0;
-            bool largeArc = false;
 
-            if (endAngle > 180)
-                largeArc = true;
-
-            pathRoot.StrokeLineCap = PenLineCap.Round;
-            pathRoot.StrokeThickness = 12;
-            ARC.SweepDirection = SweepDirection.Clockwise;
-            ARC.Size = new Size(Radius, Radius);
-            ARC.RotationAngle = angle;
-            ARC.IsLargeArc = largeArc;
-            //////////////////////////
-            pathFigure.StartPoint = Frontend.FSharp.PieChart.computeCartesianCoordinate(startAngle, Radius);
-            ARC.Point = Frontend.FSharp.PieChart.computeCartesianCoordinate(startAngle + endAngle, Radius);
-
-            
-
-        }
 
 
 

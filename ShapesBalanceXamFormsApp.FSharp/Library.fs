@@ -24,3 +24,25 @@ module PieChart =
         let y = radius *  Math.Sin(angleRad) + (radius + centerY)
 
         Point(x,y)
+
+    let renderArc (pathRoot:Path, pathFigure:PathFigure, arc:ArcSegment, startAngle:double, endAngle:double) = 
+        
+        let radius = 150.
+        let angle =  0.
+        let largeArc = 
+            if endAngle > 180. then
+                true
+            else
+                false
+
+        pathRoot.StrokeLineCap <- PenLineCap.Round
+        pathRoot.StrokeThickness <- 12.
+        
+        arc.SweepDirection <- SweepDirection.Clockwise
+        arc.Size <- Size(radius, radius)
+        arc.RotationAngle <- angle
+        arc.IsLargeArc <- largeArc
+
+        pathFigure.StartPoint <- computeCartesianCoordinate startAngle  radius
+        arc.Point <- computeCartesianCoordinate (startAngle + endAngle) radius
+        ()
