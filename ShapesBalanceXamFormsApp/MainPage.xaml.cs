@@ -13,7 +13,7 @@ namespace ShapesBalanceXamFormsApp
 {
     public partial class Normalization
     {
-        public static IEnumerable<Percentage> Normalize(IEnumerable<Wallet> wallets)
+        public static IEnumerable<Frontend.FSharp.Percentage> Normalize(IEnumerable<Frontend.FSharp.Wallet> wallets)
         {
 
 
@@ -21,7 +21,7 @@ namespace ShapesBalanceXamFormsApp
             double visiblePercentageLimit = 1;
             double percent = 0;
             
-            List<Percentage> Pies = new List<Percentage>();
+            List<Frontend.FSharp.Percentage> Pies = new List<Frontend.FSharp.Percentage>();
 
 
             var total = wallets.Sum(x => x.CryptoValue);
@@ -30,7 +30,7 @@ namespace ShapesBalanceXamFormsApp
 
 
             
-            foreach(Wallet balance in wallets)
+            foreach(Frontend.FSharp.Wallet balance in wallets)
             {
                 percent = balance.CryptoValue * 100 / total;
 
@@ -40,14 +40,14 @@ namespace ShapesBalanceXamFormsApp
                 if (100  >= percent && percent >= minimumShowablePercentage)
                 {
                     //no normalization
-                    Pies.Add(new Percentage(percent, balance.Stroke));
+                    Pies.Add(new Frontend.FSharp.Percentage(percent, balance.Stroke));
                 }
                 else if (minimumShowablePercentage > percent && percent >= visiblePercentageLimit)
                 {
                     //normalize to 2%
                      
                     percent = minimumShowablePercentage;
-                    Pies.Add(new Percentage(percent, balance.Stroke));
+                    Pies.Add(new Frontend.FSharp.Percentage(percent, balance.Stroke));
                 }
                 /*
                 else if (visiblePercentageLimit > percent)
@@ -105,7 +105,7 @@ namespace ShapesBalanceXamFormsApp
     public partial class MainPage : ContentPage
     {
 
-
+        /*
 
         public class Wallet
         {
@@ -138,15 +138,16 @@ namespace ShapesBalanceXamFormsApp
             public double Percent { get; set; }
             public Brush Stroke { get; private set; }
         }
+        */
 
-        public IEnumerable<Wallet> GetAmount()
+        public IEnumerable<Frontend.FSharp.Wallet> GetAmount()
         {
 
 
             //yield return new Wallet(50, Brush.Blue);
-            yield return new Wallet(750, Brush.Gray);
-            yield return new Wallet(325, Brush.Brown);
-            yield return new Wallet(425, Brush.Green);
+            yield return new Frontend.FSharp.Wallet(750, Brush.Gray);
+            yield return new Frontend.FSharp.Wallet(325, Brush.Brown);
+            yield return new Frontend.FSharp.Wallet(425, Brush.Green);
 
         }
 
@@ -155,10 +156,10 @@ namespace ShapesBalanceXamFormsApp
             InitializeComponent();
 
 
-            IEnumerable<Wallet> amounts = GetAmount();
+            IEnumerable<Frontend.FSharp.Wallet> amounts = GetAmount();
             double amount = 0;
 
-            foreach (Wallet bal in amounts)
+            foreach (Frontend.FSharp.Wallet bal in amounts)
             {
                 amount += bal.CryptoValue;
             }
@@ -228,9 +229,9 @@ namespace ShapesBalanceXamFormsApp
 
 
 
-        public void makePies(Grid grid, IEnumerable<Wallet> amounts)
+        public void makePies(Grid grid, IEnumerable<Frontend.FSharp.Wallet> amounts)
         {
-            IEnumerable<Percentage> Pies = new List<Percentage>();
+            IEnumerable<Frontend.FSharp.Percentage> Pies = new List<Frontend.FSharp.Percentage>();
           
             int n = amounts.Count();
             
@@ -244,7 +245,7 @@ namespace ShapesBalanceXamFormsApp
 
 
 
-            foreach (Wallet p in amounts)
+            foreach (Frontend.FSharp.Wallet p in amounts)
                 total += p.CryptoValue;
 
             if (n == 1)

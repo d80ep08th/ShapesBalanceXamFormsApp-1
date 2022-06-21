@@ -10,6 +10,10 @@ open Xamarin.Forms.Shapes
 open System.Threading.Tasks
 open System.ComponentModel
 
+type Wallet = { CryptoValue: double ; Stroke: Brush }
+type Percentage =  { mutable Percent: double;  Stroke: Brush } 
+
+
 module PieChart =
 
     let computeCartesianCoordinate (angle:double) (radius:double) = 
@@ -58,3 +62,5 @@ module PieChart =
                 renderArc path pathFigure arcSegment (arcAngle - gap) (lengthOfArc + gap * 2.)
                 arcAngle + lengthOfArc
         arcAngle
+
+
