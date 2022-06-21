@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
+
 using static ShapesBalanceXamFormsApp.MainPage;
 
 namespace ShapesBalanceXamFormsApp
@@ -353,32 +354,12 @@ namespace ShapesBalanceXamFormsApp
             ARC.RotationAngle = angle;
             ARC.IsLargeArc = largeArc;
             //////////////////////////
-            pathFigure.StartPoint = ComputeCartesianCoordinate(startAngle, Radius);
-            ARC.Point = ComputeCartesianCoordinate(startAngle + endAngle, Radius);
+            pathFigure.StartPoint = ShapesBalanceXamFormsApp.FSharp.PieChart.computeCartesianCoordinate(startAngle, Radius);
+            ARC.Point = ShapesBalanceXamFormsApp.FSharp.PieChart.computeCartesianCoordinate(startAngle + endAngle, Radius);
 
             
 
         }
-
-        private Point ComputeCartesianCoordinate(double angle, double radius)
-        {
-            //center (50,50)
-            double cX = 50;
-            double cY = 50;
-            // convert to radians
-            double angleRad = (Math.PI / 180.0) * (angle - 90);
-
-            double x = radius * Math.Cos(angleRad);
-            double y = radius * Math.Sin(angleRad);
-
-            x += radius + cX;
-            y += radius + cY;
-
-            return new Point(x, y);
-
-        }
-
-
 
 
 
