@@ -52,7 +52,7 @@ module PieChart =
         arc.Point <- computeCartesianCoordinate (startAngle + endAngle) radius
         ()
 
-    let setArcAngle (lengthOfArc:double, gap:double, arcAngle:double, path:Path, pathFigure:PathFigure, arcSegment:ArcSegment) =
+    let setArcAngle (lengthOfArc:double) (gap:double) (arcAngle:double) (path:Path) (pathFigure:PathFigure) (arcSegment:ArcSegment) =
     
         let lowestNaturalNumber = 1.
         let arcAngle =
@@ -138,6 +138,64 @@ module PieChart =
 
 
 
+    let makePies (grid:Grid, wallet:seq<Wallet>) =
+    
+        let arcAngle:double = 0.
+        let slices = Seq.length(wallet)
+        let total = 
+            wallet |> Seq.sumBy(fun x -> x.CryptoValue)
+
+        
+        let pies  = Normalize wallet
+        
+        for pie in pies do
+
+            if slices = 1 then
+                let lengthOfArc = 360.
+                let gap = 0.
+                
+
+                    
+                let path = Path(Stroke = pie.Stroke)
+                let pathG = PathGeometry ()
+
+                let pathFC = PathFigureCollection()
+                let pathF =  PathFigure()
+                let pathSC = PathSegmentCollection()
+                let arcS = ArcSegment()
+                
+                renderArc path pathF arcS (arcAngle + gap) (lengthOfArc - gap * 2.)
+                
+                path.Data <- pathG
+                pathG.Figures <- pathFC
+                pathFC.Add(pathF)
+                pathF.Segments.Add(arcS)
+
+
+
+                grid.Children.Add(path)            
+            else
+                                                              
+                let gap:double = 2.5
+                let lengthOfArc = ( pie.Percent ) * 360. / 100.
+                   
+
+                let path = Path(Stroke = pie.Stroke)
+                let pathG = PathGeometry ()
+
+                let pathFC = PathFigureCollection()
+                let pathF =  PathFigure()
+                let pathSC = PathSegmentCollection()
+                let arcS = ArcSegment()
+
+                let arcAngle = setArcAngle lengthOfArc gap arcAngle path pathF arcS
+                    
+                path.Data <- pathG
+                pathG.Figures <- pathFC
+                pathFC.Add(pathF)
+                pathF.Segments.Add(arcS)
+
+                grid.Children.Add(path)
 
 
 
