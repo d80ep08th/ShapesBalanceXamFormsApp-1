@@ -71,8 +71,7 @@ module PieChart =
         let fullPie = 100.
 
         let total = wallets |> Seq.sumBy(fun x -> x.CryptoValue)
-            //wallets |> Seq.sum(fun x -> x.CryptoValue)
-            //wallets |> List.sumBy(fun x -> x.CryptoValue)
+
         
         let innerNormalize (wallet: Wallet) : Option<Percentage> =
             
@@ -140,25 +139,41 @@ module PieChart =
 
     let makePies (grid:Grid, wallet:seq<Wallet>) =
     
-        let arcAngle:double = 0.
+        let mutable arcAngle = 0.
         let slices = Seq.length(wallet)
-        let total = 
-            wallet |> Seq.sumBy(fun x -> x.CryptoValue)
-
-        
         let pies  = Normalize wallet
         
         for pie in pies do
 
-            if slices = 1 then
+            if slices > 1 then
+
+                
+                let lengthOfArc = ( pie.Percent ) * 360. / 100.
+                let gap = 2.5    
+
+                let path = Path(Stroke = pie.Stroke)
+                let pathG = PathGeometry ()
+                let pathFC = PathFigureCollection()
+                let pathF =  PathFigure()
+                let pathSC = PathSegmentCollection()
+                let arcS = ArcSegment()
+
+                arcAngle <- setArcAngle lengthOfArc gap arcAngle path pathF arcS
+                    
+                path.Data <- pathG
+                pathG.Figures <- pathFC
+                pathFC.Add(pathF)
+                pathF.Segments.Add(arcS)
+
+                grid.Children.Add(path)
+            
+            else
+                
                 let lengthOfArc = 360.
                 let gap = 0.
                 
-
-                    
                 let path = Path(Stroke = pie.Stroke)
                 let pathG = PathGeometry ()
-
                 let pathFC = PathFigureCollection()
                 let pathF =  PathFigure()
                 let pathSC = PathSegmentCollection()
@@ -171,31 +186,8 @@ module PieChart =
                 pathFC.Add(pathF)
                 pathF.Segments.Add(arcS)
 
+                grid.Children.Add(path)                          
 
-
-                grid.Children.Add(path)            
-            else
-                                                              
-                let gap:double = 2.5
-                let lengthOfArc = ( pie.Percent ) * 360. / 100.
-                   
-
-                let path = Path(Stroke = pie.Stroke)
-                let pathG = PathGeometry ()
-
-                let pathFC = PathFigureCollection()
-                let pathF =  PathFigure()
-                let pathSC = PathSegmentCollection()
-                let arcS = ArcSegment()
-
-                let arcAngle = setArcAngle lengthOfArc gap arcAngle path pathF arcS
-                    
-                path.Data <- pathG
-                pathG.Figures <- pathFC
-                pathFC.Add(pathF)
-                pathF.Segments.Add(arcS)
-
-                grid.Children.Add(path)
 
 
 
