@@ -18,79 +18,21 @@ namespace ShapesBalanceXamFormsApp
 
     public partial class MainPage : ContentPage
     {
+        public IEnumerable<Frontend.FSharp.Wallet> GetWallet()
+        {
 
+
+            //yield return new Wallet(50, Brush.Blue);
+            yield return new Frontend.FSharp.Wallet(750, Brush.Gray);
+            yield return new Frontend.FSharp.Wallet(325, Brush.Brown);
+            yield return new Frontend.FSharp.Wallet(425, Brush.Green);
+
+        }
         public MainPage()
         {
-            InitializeComponent();
-
-
-            IEnumerable<Frontend.FSharp.Wallet> amounts = Frontend.FSharp.PieChart.getWallet;
-            double amount = 0;
-
-            foreach (Frontend.FSharp.Wallet bal in amounts)
-            {
-                amount += bal.CryptoValue;
-            }
-
-            Grid grid = new Grid
-            {
-                RowDefinitions = { new RowDefinition() },
-                ColumnDefinitions = { new ColumnDefinition() },
-
-            };
-
-
-
-
-            Label approx = new Label
-            {
-                Text = "~",
-                FontSize = 25,
-                HorizontalOptions = LayoutOptions.Center,
-                TranslationY = 160,
-            TranslationX = -40
-            };
-            var beautifiedAmount = Frontend.FSharp.PieChart.beautifyAmount(amounts);
-
-            Label balance = new Label
-            {
-                Text = beautifiedAmount,
-                FontSize = 25,
-                HorizontalOptions = LayoutOptions.Center,
-                TranslationY = 160
-            };
-
-            
-            Label currency = new Label
-            {
-                Text = "U.S.D.",
-                FontAttributes = FontAttributes.Bold,
-                FontSize = 24,
-                HorizontalOptions = LayoutOptions.Center,
-                TranslationY = 160,
-                TranslationX = 65
-            };
-
-            Label total_tag = new Label
-            {
-                Text = "Amount Balance",
-                FontAttributes = FontAttributes.Bold,
-                FontSize = 15,
-                HorizontalOptions = LayoutOptions.Center,
-                TranslationY = 200
-            };
-
-            grid.Children.Add(approx);
-            grid.Children.Add(currency);
-            grid.Children.Add(balance);
-            grid.Children.Add(total_tag);
-
-
-
-            Frontend.FSharp.PieChart.makePies(grid, amounts);
-            
-            Content = grid;
-
+  
+            IEnumerable<Frontend.FSharp.Wallet> wallet = GetWallet();
+            Content = Frontend.FSharp.PieChart.create(wallet);
 
 
         }

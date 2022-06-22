@@ -137,7 +137,7 @@ module PieChart =
 
 
 
-    let makePies (grid:Grid, wallet:seq<Wallet>) =
+    let makePies (grid:Grid) (wallet:seq<Wallet>) =
     
         let mutable arcAngle = 0.
         let slices = Seq.length(wallet)
@@ -189,11 +189,24 @@ module PieChart =
                 grid.Children.Add(path)                          
 
 
-    let getWallet = 
-         
-        let wallet = seq[{Wallet.CryptoValue = 50.; Stroke = Brush.Aqua }; {Wallet.CryptoValue = 25.; Stroke = Brush.Black}; {Wallet.CryptoValue =25. ;Stroke = Brush.Green }]
-
-        wallet
 
 
 
+
+    let create (wallet:seq<Wallet>) = 
+          
+   
+        let beautifiedAmount = beautifyAmount wallet
+        let grid = Grid()
+        let approx = Label( Text = "~", FontSize = 25., HorizontalOptions = LayoutOptions.Center, TranslationY = 160., TranslationX = -40.)
+        let balance = Label( Text = beautifiedAmount, FontSize = 25., HorizontalOptions = LayoutOptions.Center, TranslationY = 160., TranslationX = 0.)            
+        let currency = Label( Text = "U.S.D.", FontSize = 24., HorizontalOptions = LayoutOptions.Center, TranslationY = 160., TranslationX = 65.)        
+        let total_tag = Label( Text = "Amount Balance", FontSize = 15., HorizontalOptions = LayoutOptions.Center, TranslationY = 200.)
+
+        grid.Children.Add(approx)
+        grid.Children.Add(balance)
+        grid.Children.Add(currency)
+        grid.Children.Add(total_tag)
+
+        makePies grid wallet
+        grid
