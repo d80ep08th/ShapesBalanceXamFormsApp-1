@@ -189,6 +189,11 @@ module PieChart =
                 grid.Children.Add(path)                          
 
 
+    let getWallet = 
+         
+        let wallet = seq[{Wallet.CryptoValue = 50.; Stroke = Brush.Aqua }; {Wallet.CryptoValue = 25.; Stroke = Brush.Black}; {Wallet.CryptoValue =25. ;Stroke = Brush.Green }]
+
+        wallet
 
 
 

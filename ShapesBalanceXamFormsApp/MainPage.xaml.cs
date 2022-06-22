@@ -19,23 +19,12 @@ namespace ShapesBalanceXamFormsApp
     public partial class MainPage : ContentPage
     {
 
-        public IEnumerable<Frontend.FSharp.Wallet> GetAmount()
-        {
-
-
-            //yield return new Wallet(50, Brush.Blue);
-            yield return new Frontend.FSharp.Wallet(750, Brush.Gray);
-            yield return new Frontend.FSharp.Wallet(325, Brush.Brown);
-            yield return new Frontend.FSharp.Wallet(425, Brush.Green);
-
-        }
-
         public MainPage()
         {
             InitializeComponent();
 
 
-            IEnumerable<Frontend.FSharp.Wallet> amounts = GetAmount();
+            IEnumerable<Frontend.FSharp.Wallet> amounts = Frontend.FSharp.PieChart.getWallet;
             double amount = 0;
 
             foreach (Frontend.FSharp.Wallet bal in amounts)
